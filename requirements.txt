@@ -1,0 +1,8 @@
+# format + converter (convert_panama.py also needs torch, from your PANAMA env)
+numpy>=1.24
+# capture tools
+sounddevice>=0.4
+soundfile>=0.12
+scipy>=1.10
+# tests
+pytest>=7
