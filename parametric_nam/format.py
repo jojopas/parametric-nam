@@ -23,6 +23,21 @@ import numpy as np
 ARCHITECTURE = "ParametricWaveNet"
 LEGACY_ARCHITECTURES = ("CoroParametricWaveNet",)
 MAX_KNOBS = 8
+# amp looks a host may draw the capture in (metadata.panel.look); hosts fall back
+# to their default for a look they do not know
+LOOKS = ("generic", "blackface", "tweed", "vox", "mesa", "plexi")
+
+
+def panel_metadata(look: str | None, labels: dict[str, str] | None) -> dict:
+    """metadata.panel: the look to draw the capture in and display labels by knob name."""
+    if look is not None and look not in LOOKS:
+        raise ValueError(f"unknown look {look!r}: one of {', '.join(LOOKS)}")
+    out: dict = {}
+    if look is not None:
+        out["look"] = look
+    if labels:
+        out["labels"] = {str(k): str(v) for k, v in labels.items()}
+    return out
 NAM_FILE_VERSION = "0.5.4"
 
 _KEY = re.compile(r"_blocks\.(\d+)\.(.*)$")
@@ -96,6 +111,9 @@ def state_to_parametric_nam(state: dict[str, np.ndarray], layers: list[dict], he
             raise ValueError("every knob needs a name")
         if "labels" in kn and (len(kn["labels"]) < 2 or not all(isinstance(x, str) for x in kn["labels"])):
             raise ValueError(f"knob {kn['name']}: labels must be 2+ strings")
+    panel = (metadata or {}).get("panel")
+    if panel is not None:
+        panel_metadata(panel.get("look"), panel.get("labels"))  # validates
     n = len(knobs)
     out_layers = []
     flat: list[np.ndarray] = []

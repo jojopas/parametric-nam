@@ -27,6 +27,9 @@ import sys
 
 import numpy as np
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+from parametric_nam.format import LOOKS  # noqa: E402
+
 import os
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -92,6 +95,8 @@ def cmd_new(a) -> None:
     knobs = [k.strip() for k in a.knobs.split(",") if k.strip()]
     if not 1 <= len(knobs) <= 8:
         sys.exit("1..8 knobs")
+    if a.look is not None and a.look not in LOOKS:
+        sys.exit(f"unknown look {a.look!r}: one of {', '.join(LOOKS)}")
     pts = schedule(len(knobs), a.grid, a.random, a.seed)
     plan = {
         "name": a.name or d.name,
@@ -101,6 +106,10 @@ def cmd_new(a) -> None:
         "latency_samples": None,
         "points": [{"id": f"{i + 1:04d}", "g": g, "status": "todo"} for i, g in enumerate(pts)],
     }
+    if a.look:
+        plan["look"] = a.look
+    if a.author:
+        plan["author"] = a.author
     save(d, plan)
     (d / "takes").mkdir(exist_ok=True)
     print(f"{len(pts)} points ({a.grid}^{len(knobs)} grid + {a.random} random) -> {d / 'plan.json'}")
@@ -241,6 +250,8 @@ def main(argv=None) -> int:
     p.add_argument("--name")
     p.add_argument("--input", default=str(DEFAULT_INPUT), help="the shared dry signal (NAM v3 input)")
     p.add_argument("--force", action="store_true")
+    p.add_argument("--look", help="amp look for the converted capture (see format.LOOKS)")
+    p.add_argument("--author", help="who made the capture (metadata.modeled_by)")
     p.set_defaults(fn=cmd_new)
     p = sub.add_parser("status")
     p.add_argument("--dir", required=True)

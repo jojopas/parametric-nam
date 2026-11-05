@@ -32,6 +32,7 @@ public:
     {
         std::string name;
         float def = 0.5f;
+        std::vector<std::string> labels; // a stepped switch: one label per position; empty for a pot
     };
 
     static bool isParametric(const nlohmann::json& model);

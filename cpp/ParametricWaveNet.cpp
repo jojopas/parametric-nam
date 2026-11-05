@@ -45,6 +45,18 @@ std::unique_ptr<ParametricWaveNet> ParametricWaveNet::fromJson(const nlohmann::j
             throw std::runtime_error("each knob needs a name");
         if (k.contains("default") && k["default"].is_number())
             knob.def = std::clamp(k["default"].get<float>(), 0.0f, 1.0f);
+        if (k.contains("labels"))
+        {
+            const auto& l = k["labels"];
+            if (!l.is_array() || l.size() < 2)
+                throw std::runtime_error("knob " + knob.name + ": labels must be 2+ strings");
+            for (const auto& x : l)
+            {
+                if (!x.is_string())
+                    throw std::runtime_error("knob " + knob.name + ": labels must be 2+ strings");
+                knob.labels.push_back(x.get<std::string>());
+            }
+        }
         knobs.push_back(std::move(knob));
     }
     if (knobs.empty() || (int) knobs.size() > kMaxKnobs)

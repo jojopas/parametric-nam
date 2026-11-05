@@ -39,6 +39,19 @@ An array of 1 to 8 objects, in conditioning-row order:
 
 Hosts ignore keys they do not know.
 
+### `metadata` additions
+
+All optional. A host that does not draw panels ignores them.
+
+| key | type | meaning |
+|---|---|---|
+| `modeled_by` | string | who made the capture |
+| `author_note` | string | a short note from the author (the amp, the cab IR they used, ...) |
+| `panel.look` | string | the amp look a host draws the capture in: `generic`, `blackface`, `tweed`, `vox`, `mesa` or `plexi`. A host draws a look it does not know in its default look |
+| `panel.labels` | object | display label by knob name, e.g. `{"Gain": "VOLUME"}`. Knobs without one show their name |
+
+Panel order is `config.knobs` order. A knob with `labels` is drawn as a switch.
+
 ### Constraints
 
 With `N = len(config.knobs)`:
