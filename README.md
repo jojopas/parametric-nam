@@ -127,6 +127,12 @@ To add support to another NAM-based host, see [SPEC.md](SPEC.md) and
 python -m pytest tests
 ```
 
+## Contact and contributing
+
+- Questions, captures you'd like to share, or ideas: joe@murphyresearch.ai
+- Bugs and feature requests: [open an issue](https://github.com/jojopas/parametric-nam/issues).
+- Pull requests are welcome. Run `python -m pytest tests` before you send one.
+
 ## Credits and licence
 
 MIT. See [LICENSE](LICENSE). The training method is PANAMA's. The model and
