@@ -45,7 +45,8 @@ export PANAMA_DIR=/path/to/PANAMA
 
 # 1. plan: a 2-level grid over 4 knobs plus 40 stratified random settings
 python -m parametric_nam.capture_plan new --dir sessions/myamp \
-    --knobs Gain,Bass,Middle,Treble --grid 2 --random 40
+    --knobs Gain,Bass,Middle,Treble --grid 2 --random 40 \
+    --look blackface --author "Your Name"
 
 # 2. check levels, then record every setting (prompts you to dial each one)
 python -m parametric_nam.capture_record devices
@@ -57,6 +58,12 @@ python -m parametric_nam.capture_record run --dir sessions/myamp \
 scripts/train.sh sessions/myamp 30
 # -> sessions/myamp/myamp.nam
 ```
+
+The look and author go into the .nam, so a shared capture opens in the right
+amp look in Coro Parametric. Change them at convert time with
+`convert_panama.py --look tweed --label Gain=VOLUME --author "..." --note "..."`;
+without a look the converter asks (or writes `generic` when not run in a
+terminal).
 
 Each take is about 3 minutes of audio. A 56-setting session takes about three
 hours at the amp.

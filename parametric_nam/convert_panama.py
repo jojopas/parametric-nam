@@ -16,7 +16,7 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from parametric_nam.format import state_to_parametric_nam, strip_state_prefix  # noqa: E402
+from parametric_nam.format import LOOKS, panel_metadata, state_to_parametric_nam, strip_state_prefix  # noqa: E402
 
 
 def load_ckpt_state(path: pathlib.Path) -> dict:
@@ -36,6 +36,21 @@ def panama_layers(model_config: dict) -> tuple[list[dict], float]:
     return layers, float(net.get("head_scale", 1.0))
 
 
+def ask_look(input=input) -> str:
+    """Ask which look a host should draw the capture in; Enter picks generic."""
+    print("Amp look for this capture:")
+    for i, name in enumerate(LOOKS, 1):
+        print(f"  {i}. {name}")
+    while True:
+        ans = input(f"look [1-{len(LOOKS)}, Enter = {LOOKS[0]}]: ").strip().lower()
+        if not ans:
+            return LOOKS[0]
+        if ans.isdigit() and 1 <= int(ans) <= len(LOOKS):
+            return LOOKS[int(ans) - 1]
+        if ans in LOOKS:
+            return ans
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--ckpt", required=True, type=pathlib.Path)
@@ -47,6 +62,11 @@ def main(argv=None) -> int:
     ap.add_argument("--loudness", type=float, help="metadata.loudness (dB) if measured")
     ap.add_argument("--sample-rate", type=float, default=48000.0)
     ap.add_argument("--out", required=True, type=pathlib.Path)
+    ap.add_argument("--look", help=f"amp look a host draws the capture in: {', '.join(LOOKS)}")
+    ap.add_argument("--label", action="append", default=[], metavar="KNOB=LABEL",
+                    help="display label for a knob (repeatable), e.g. Gain=VOLUME")
+    ap.add_argument("--author", help="metadata.modeled_by")
+    ap.add_argument("--note", help="metadata.author_note")
     a = ap.parse_args(argv)
 
     plan = json.loads(a.plan.read_text()) if a.plan else None
@@ -70,6 +90,25 @@ def main(argv=None) -> int:
     md = {"name": plan["name"] if plan and a.name == "Parametric capture" else a.name}
     if a.loudness is not None:
         md["loudness"] = a.loudness
+    labels = dict((plan or {}).get("labels", {}))
+    for item in a.label:
+        if "=" not in item:
+            sys.exit(f"--label {item!r}: use KNOB=LABEL")
+        k, v = item.split("=", 1)
+        labels[k.strip()] = v.strip()
+    look = a.look or (plan or {}).get("look")
+    if look is None:
+        look = ask_look() if sys.stdin.isatty() else LOOKS[0]
+    try:
+        md["panel"] = panel_metadata(look, labels)
+    except ValueError as e:
+        sys.exit(str(e))
+    author = a.author or (plan or {}).get("author")
+    note = a.note or (plan or {}).get("note")
+    if author:
+        md["modeled_by"] = author
+    if note:
+        md["author_note"] = note
     model = state_to_parametric_nam(state, layers, head_scale, knobs, sample_rate=a.sample_rate, metadata=md)
     a.out.write_text(json.dumps(model))
     print(f"wrote {a.out}  knobs={names}  weights={len(model['weights'])}")

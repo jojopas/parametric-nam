@@ -155,3 +155,13 @@ def test_extend_keeps_old_takes_and_groups_switch_positions(tmp_path, capsys):
 def test_setting_text_shows_switch_label():
     plan = {"knobs": ["Gain", "Power"], "switches": {"Power": ["half", "full"]}}
     assert cp.setting_text(plan, [0.25, 0.0]) == "Gain 2.5   Power HALF"
+
+
+def test_new_records_look_and_author(tmp_path):
+    d = tmp_path / "s"
+    cp.main(["new", "--dir", str(d), "--knobs", "Gain", "--grid", "2", "--random", "1", "--input", "/x.wav",
+             "--look", "tweed", "--author", "Jane"])
+    plan = json.loads((d / "plan.json").read_text())
+    assert plan["look"] == "tweed" and plan["author"] == "Jane"
+    with pytest.raises(SystemExit):
+        cp.main(["new", "--dir", str(tmp_path / "t"), "--knobs", "Gain", "--input", "/x.wav", "--look", "orange"])

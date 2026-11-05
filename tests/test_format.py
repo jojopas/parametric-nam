@@ -127,3 +127,22 @@ def test_switch_labels_are_written_and_checked():
     assert "labels" not in out["config"]["knobs"][0]
     with pytest.raises(ValueError):
         state_to_parametric_nam(state, layers, hs, [{"name": "Power", "labels": ["only"]}])
+
+
+def test_panel_metadata_is_written_and_validated(plain):
+    from parametric_nam.format import LOOKS, panel_metadata
+    layers = plain["config"]["layers"]
+    state, hs = nam_weights_to_state(layers, plain["weights"])
+    out = state_to_parametric_nam(state, layers, hs, [{"name": "Gain"}],
+                                  metadata={"panel": panel_metadata("tweed", {"Gain": "VOLUME"}),
+                                            "modeled_by": "Jane", "author_note": "65 reissue"})
+    assert out["metadata"]["panel"] == {"look": "tweed", "labels": {"Gain": "VOLUME"}}
+    assert out["metadata"]["modeled_by"] == "Jane"
+    assert out["metadata"]["author_note"] == "65 reissue"
+    assert panel_metadata(None, None) == {}
+    assert panel_metadata("generic", None) == {"look": "generic"}
+    assert LOOKS == ("generic", "blackface", "tweed", "vox", "mesa", "plexi")
+    with pytest.raises(ValueError):
+        panel_metadata("orange", None)
+    with pytest.raises(ValueError):
+        state_to_parametric_nam(state, layers, hs, [{"name": "Gain"}], metadata={"panel": {"look": "orange"}})
