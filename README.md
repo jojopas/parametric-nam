@@ -22,6 +22,15 @@ This repo has three things:
 > 0.09 on knob settings held out of training. A good single-setting NAM
 > capture is around 0.01 to 0.02. See [What we learned](#what-we-learned).
 
+## Get the player
+
+[**Coro NAM Player**](https://www.murphyresearch.ai/nam-player) is a free
+plugin (AU, VST3 and standalone; macOS 12+, Apple silicon) that plays
+parametric captures: it reads the knobs in the file and puts them on an amp
+head. It ships with a six-knob capture of our Origin 20 and a set of cab IRs,
+so you can hear one before you make one. Plain NAM captures play too. The
+download is free with a Murphy Research account.
+
 ## How it works
 
 PANAMA trains a WaveNet that takes a vector of knob values alongside the audio.
@@ -105,8 +114,9 @@ takes over two days:
 
 ## Hosts
 
-- [Coro](https://murphyresearch.ai) by Murphy Research loads `ParametricWaveNet`
-  files and shows their knobs.
+- [Coro NAM Player](https://www.murphyresearch.ai/nam-player) by Murphy
+  Research (free) loads `ParametricWaveNet` files and shows their knobs on an
+  amp head, in the look the capture names.
 
 To add support to another NAM-based host, see [SPEC.md](SPEC.md) and
 [`cpp/ParametricWaveNet.h`](cpp/ParametricWaveNet.h).
