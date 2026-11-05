@@ -60,7 +60,7 @@ scripts/train.sh sessions/myamp 30
 ```
 
 The look and author go into the .nam, so a shared capture opens in the right
-amp look in Coro Parametric. Change them at convert time with
+amp look in the Coro NAM Player. Change them at convert time with
 `convert_panama.py --look tweed --label Gain=VOLUME --author "..." --note "..."`;
 without a look the converter asks (or writes `generic` when not run in a
 terminal).
