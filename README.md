@@ -33,6 +33,12 @@ the weight fold that makes PANAMA's layers match NAM's.
 
 ## Quick start
 
+New to this? [docs/GUIDE.md](docs/GUIDE.md) walks through a whole capture step
+by step. With [Claude Code](https://claude.com/claude-code), open this repo and
+ask it to help you capture your amp: the skills in [`.claude/skills`](.claude/skills)
+guide you through planning, levels, recording, training and export.
+
+
 Requirements: Python 3.10+, an audio interface, a reamp box, a load box or DI
 for the amp's output, and a [PANAMA](https://github.com/ETH-DISCO/PANAMA)
 checkout installed into its own virtual environment (`pip install -e .`).
