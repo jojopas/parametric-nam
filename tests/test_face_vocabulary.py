@@ -16,6 +16,8 @@ DENYLIST = [
     "walrus", "earthquaker", "wampler", "fulltone", "behringer", "digitech",
     "line 6", "neural", "kemper", "fractal", "positive grid", "revv",
     "tolex", "tube screamer", "big muff", "rat", "fuzz face", "plexi", "blackface",
+    "silverface", "bassman", "ac30", "top boost", "twin", "deluxe", "princeton", "jcm",
+    "super lead",
 ]
 
 vocab = json.loads(VOCAB_PATH.read_text())
@@ -78,7 +80,7 @@ def test_fonts_have_family_and_woff2():
 
 def test_amp_part_lists_are_short_and_generic():
     for key in ("ampCoverings", "ampGrilles", "ampPlates", "ampPiping"):
-        assert 3 <= len(vocab[key]) <= 6, key
+        assert 3 <= len(vocab[key]) <= 8, key
         assert len(set(vocab[key])) == len(vocab[key]), key
 
 

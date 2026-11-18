@@ -928,7 +928,8 @@
     "vinyl-cream",
     "tweed-wheat",
     "basket-brown",
-    "vinyl-steel"
+    "vinyl-steel",
+    "basket-black"
   ],
   "ampGrilles": [
     "cloth-silver",
@@ -936,19 +937,22 @@
     "cloth-wheat",
     "basketweave",
     "sparkle-silver",
-    "mesh-black"
+    "mesh-black",
+    "sparkle-silver-blue"
   ],
   "ampPlates": [
     "plate-black",
     "plate-brushed",
     "plate-cream",
-    "plate-gold-glass"
+    "plate-gold-glass",
+    "plate-copper"
   ],
   "ampPiping": [
     "none",
     "white",
     "gold",
-    "silver"
+    "silver",
+    "aluminium"
   ],
   "ampLamps": [
     "jewel-red",
@@ -999,6 +1003,7 @@
     "dots",
     "star",
     "bolt",
-    "wave"
+    "wave",
+    "vents"
   ]
 }
