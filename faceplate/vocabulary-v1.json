@@ -4,7 +4,15 @@
     "maxBytes": 16384,
     "maxString": 40,
     "maxText": 12,
-    "maxDecorations": 8
+    "maxDecorations": 8,
+    "wear": [
+      0,
+      1
+    ],
+    "value": [
+      0,
+      1
+    ]
   },
   "kinds": [
     "pedal",
@@ -21,7 +29,11 @@
       "slots": {
         "knob": [
           "gain",
-          "volume"
+          "volume",
+          "p1",
+          "p2",
+          "p3",
+          "p4"
         ],
         "switch": [],
         "text": [
@@ -29,6 +41,10 @@
           "subtitle",
           "label-gain",
           "label-volume",
+          "label-p1",
+          "label-p2",
+          "label-p3",
+          "label-p4",
           "badge"
         ],
         "decoration": [

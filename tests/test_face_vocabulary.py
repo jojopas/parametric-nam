@@ -37,7 +37,8 @@ def _strings(node):
 def test_vocabulary_loads():
     assert vocab["v"] == 1
     assert vocab["limits"] == {
-        "maxBytes": 16384, "maxString": 40, "maxText": 12, "maxDecorations": 8}
+        "maxBytes": 16384, "maxString": 40, "maxText": 12, "maxDecorations": 8,
+        "wear": [0, 1], "value": [0, 1]}
 
 
 def test_every_layout_is_consistent():
@@ -48,8 +49,11 @@ def test_every_layout_is_consistent():
         assert lo == hi, lid
         knob_slots = lay["slots"]["knob"]
         if lid == "pedal-0k":
-            assert knob_slots == ["gain", "volume"]
+            # reserved GAIN / VOLUME, then the captured gear's printed (fixed) knobs
+            assert knob_slots == ["gain", "volume", "p1", "p2", "p3", "p4"]
             assert lay["knobs"] == [0, 0]
+            for s in knob_slots:
+                assert f"label-{s}" in lay["slots"]["text"], s
         else:
             assert len(knob_slots) == hi, lid
         assert len(lay["slots"]["switch"]) == lay["switches"], lid
@@ -114,3 +118,15 @@ def test_no_real_names():
         for s in _strings(doc):
             for p in pats:
                 assert not p.search(s), (s, p.pattern)
+
+
+def test_spec_documents_the_face_schema():
+    """SPEC.md carries the panel.face schema: every object and the rules a host needs."""
+    spec = (ROOT / "SPEC.md").read_text()
+    assert "### `panel.face` schema" in spec
+    for needle in ("`body`", "`controls[]`", "`text[]`", "`decorations[]`", "`pedal`", "`amp`",
+                   "`value`", "`wear`", "code points", "`p1`", "exactly once", "16384",
+                   "at least two strings", "a stock look"):
+        assert needle in spec, needle
+    for key in vocab["limits"]:
+        assert f"`limits.{key}`" in spec, key
