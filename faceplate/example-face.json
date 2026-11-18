@@ -1,0 +1,64 @@
+{
+  "v": 1,
+  "template": "pedal-2k-example",
+  "body": {
+    "kind": "pedal",
+    "layout": "pedal-2k",
+    "shape": "box-standard",
+    "color": "#1f3d2b",
+    "finish": "gloss",
+    "wear": 0.3,
+    "accent": "#e8e0cc"
+  },
+  "controls": [
+    {
+      "knob": "Drive",
+      "slot": "k1",
+      "style": "skirted",
+      "cap": "#111111",
+      "pointer": "#f4efe7"
+    },
+    {
+      "knob": "Tone",
+      "slot": "k2",
+      "style": "skirted",
+      "cap": "#111111",
+      "pointer": "#f4efe7"
+    }
+  ],
+  "text": [
+    {
+      "slot": "title",
+      "string": "Fuss",
+      "font": "display-1",
+      "size": "l",
+      "color": "#e8e0cc"
+    },
+    {
+      "slot": "label-k1",
+      "string": "DRIVE",
+      "font": "label-1",
+      "size": "s",
+      "color": "#e8e0cc"
+    },
+    {
+      "slot": "label-k2",
+      "string": "TONE",
+      "font": "label-1",
+      "size": "s",
+      "color": "#e8e0cc"
+    }
+  ],
+  "decorations": [
+    {
+      "shape": "stripe",
+      "slot": "band",
+      "color": "#c9a227"
+    }
+  ],
+  "pedal": {
+    "footswitch": "chrome",
+    "led": "red",
+    "jacks": "side"
+  }
+}

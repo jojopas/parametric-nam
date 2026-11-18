@@ -1,0 +1,988 @@
+{
+  "v": 1,
+  "limits": {
+    "maxBytes": 16384,
+    "maxString": 40,
+    "maxText": 12,
+    "maxDecorations": 8
+  },
+  "kinds": [
+    "pedal",
+    "amp"
+  ],
+  "layouts": {
+    "pedal-0k": {
+      "kind": "pedal",
+      "knobs": [
+        0,
+        0
+      ],
+      "switches": 0,
+      "slots": {
+        "knob": [
+          "gain",
+          "volume"
+        ],
+        "switch": [],
+        "text": [
+          "title",
+          "subtitle",
+          "label-gain",
+          "label-volume",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "pedal-1k": {
+      "kind": "pedal",
+      "knobs": [
+        1,
+        1
+      ],
+      "switches": 2,
+      "slots": {
+        "knob": [
+          "k1"
+        ],
+        "switch": [
+          "s1",
+          "s2"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-s1",
+          "label-s2",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "pedal-2k": {
+      "kind": "pedal",
+      "knobs": [
+        2,
+        2
+      ],
+      "switches": 2,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2"
+        ],
+        "switch": [
+          "s1",
+          "s2"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-s1",
+          "label-s2",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "pedal-3k": {
+      "kind": "pedal",
+      "knobs": [
+        3,
+        3
+      ],
+      "switches": 2,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3"
+        ],
+        "switch": [
+          "s1",
+          "s2"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-s1",
+          "label-s2",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "pedal-4k": {
+      "kind": "pedal",
+      "knobs": [
+        4,
+        4
+      ],
+      "switches": 2,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4"
+        ],
+        "switch": [
+          "s1",
+          "s2"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-s1",
+          "label-s2",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "pedal-5k": {
+      "kind": "pedal",
+      "knobs": [
+        5,
+        5
+      ],
+      "switches": 2,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5"
+        ],
+        "switch": [
+          "s1",
+          "s2"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-s1",
+          "label-s2",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "pedal-6k": {
+      "kind": "pedal",
+      "knobs": [
+        6,
+        6
+      ],
+      "switches": 2,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5",
+          "k6"
+        ],
+        "switch": [
+          "s1",
+          "s2"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-k6",
+          "label-s1",
+          "label-s2",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-top-2k": {
+      "kind": "amp",
+      "knobs": [
+        2,
+        2
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-top-3k": {
+      "kind": "amp",
+      "knobs": [
+        3,
+        3
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-top-4k": {
+      "kind": "amp",
+      "knobs": [
+        4,
+        4
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-top-5k": {
+      "kind": "amp",
+      "knobs": [
+        5,
+        5
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-top-6k": {
+      "kind": "amp",
+      "knobs": [
+        6,
+        6
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5",
+          "k6"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-k6",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-top-7k": {
+      "kind": "amp",
+      "knobs": [
+        7,
+        7
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5",
+          "k6",
+          "k7"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-k6",
+          "label-k7",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-top-8k": {
+      "kind": "amp",
+      "knobs": [
+        8,
+        8
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5",
+          "k6",
+          "k7",
+          "k8"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-k6",
+          "label-k7",
+          "label-k8",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-front-2k": {
+      "kind": "amp",
+      "knobs": [
+        2,
+        2
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-front-3k": {
+      "kind": "amp",
+      "knobs": [
+        3,
+        3
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-front-4k": {
+      "kind": "amp",
+      "knobs": [
+        4,
+        4
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-front-5k": {
+      "kind": "amp",
+      "knobs": [
+        5,
+        5
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-front-6k": {
+      "kind": "amp",
+      "knobs": [
+        6,
+        6
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5",
+          "k6"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-k6",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-front-7k": {
+      "kind": "amp",
+      "knobs": [
+        7,
+        7
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5",
+          "k6",
+          "k7"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-k6",
+          "label-k7",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    },
+    "amp-front-8k": {
+      "kind": "amp",
+      "knobs": [
+        8,
+        8
+      ],
+      "switches": 3,
+      "slots": {
+        "knob": [
+          "k1",
+          "k2",
+          "k3",
+          "k4",
+          "k5",
+          "k6",
+          "k7",
+          "k8"
+        ],
+        "switch": [
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "text": [
+          "title",
+          "subtitle",
+          "label-k1",
+          "label-k2",
+          "label-k3",
+          "label-k4",
+          "label-k5",
+          "label-k6",
+          "label-k7",
+          "label-k8",
+          "label-s1",
+          "label-s2",
+          "label-s3",
+          "badge"
+        ],
+        "decoration": [
+          "band",
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center"
+        ]
+      }
+    }
+  },
+  "shapes": [
+    "box-standard",
+    "box-wide",
+    "box-tall"
+  ],
+  "finishes": [
+    "gloss",
+    "matte",
+    "hammertone",
+    "sparkle",
+    "brushed"
+  ],
+  "knobStyles": [
+    "skirted",
+    "chicken",
+    "knurled",
+    "dome",
+    "pointer-bar"
+  ],
+  "footswitches": [
+    "chrome",
+    "treadle",
+    "soft"
+  ],
+  "leds": [
+    "red",
+    "amber",
+    "green",
+    "blue",
+    "white"
+  ],
+  "jacks": [
+    "side",
+    "top"
+  ],
+  "ampCoverings": [
+    "tolex-black",
+    "tolex-cream",
+    "tweed-wheat",
+    "basket-brown",
+    "tolex-steel"
+  ],
+  "ampGrilles": [
+    "cloth-silver",
+    "cloth-oxblood",
+    "cloth-wheat",
+    "basketweave",
+    "sparkle-silver",
+    "mesh-black"
+  ],
+  "ampPlates": [
+    "plate-black",
+    "plate-brushed",
+    "plate-cream",
+    "plate-gold-glass"
+  ],
+  "ampPiping": [
+    "none",
+    "white",
+    "gold",
+    "silver"
+  ],
+  "ampLamps": [
+    "jewel-red",
+    "jewel-amber",
+    "jewel-green"
+  ],
+  "ampSwitches": [
+    "toggle-chrome",
+    "rocker-black"
+  ],
+  "fonts": {
+    "display-1": {
+      "family": "Alfa Slab One",
+      "file": "alfa-slab-one.woff2"
+    },
+    "display-2": {
+      "family": "Bowlby One",
+      "file": "bowlby-one.woff2"
+    },
+    "display-3": {
+      "family": "Bungee",
+      "file": "bungee.woff2"
+    },
+    "display-4": {
+      "family": "Righteous",
+      "file": "righteous.woff2"
+    },
+    "label-1": {
+      "family": "Barlow Condensed",
+      "file": "barlow-condensed.woff2"
+    },
+    "label-2": {
+      "family": "Saira Extra Condensed",
+      "file": "saira-extra-condensed.woff2"
+    }
+  },
+  "textSizes": [
+    "s",
+    "m",
+    "l",
+    "xl"
+  ],
+  "decorations": [
+    "stripe",
+    "band",
+    "ring",
+    "chevron",
+    "dots",
+    "star",
+    "bolt",
+    "wave"
+  ]
+}

@@ -49,8 +49,22 @@ All optional. A host that does not draw panels ignores them.
 | `author_note` | string | a short note from the author (the amp, the cab IR they used, ...) |
 | `panel.look` | string | the amp look a host draws the capture in: `generic`, `blackface`, `tweed`, `vox`, `mesa` or `plexi`. A host draws a look it does not know in its default look |
 | `panel.labels` | object | display label by knob name, e.g. `{"Gain": "VOLUME"}`. Knobs without one show their name |
+| `panel.kind` | string | `"pedal"` or `"amp"`: what kind of gear the capture is. A host with no valid `panel.face` draws its default pedal template for `"pedal"`. Any other value is ignored |
+| `panel.face` | object | the faceplate as pure data (no images, URLs, HTML, CSS, script or free-form paths). Schema version `v` is 1; every id (layout, shape, finish, knob style, font, ...) comes from [`faceplate/vocabulary-v1.json`](faceplate/vocabulary-v1.json), colours are `#rrggbb`, strings are at most 40 characters, at most 12 text items and 8 decorations, and the serialised face is at most 16 KB. An example is in [`faceplate/example-face.json`](faceplate/example-face.json) |
 
 Panel order is `config.knobs` order. A knob with `labels` is drawn as a switch.
+
+A host reads `panel.face` strictly: an unknown key, unknown id, out-of-range value, wrong type or unknown `v` rejects the whole face, with no partial rendering, and a validator never throws. Fallback:
+
+| the file has | the host draws |
+|---|---|
+| a valid `panel.face` | the face |
+| an invalid `panel.face` | as if it had none (rows below) |
+| `panel.kind: "pedal"`, no valid face | the host's default pedal template, labelled with the knobs |
+| `panel.look`, no valid face | that stock amp head |
+| none of these | the host's default amp head |
+
+Vocabulary v1 is frozen; new ids go to `v: 2`. Files without `panel.face` or `panel.kind` draw as before.
 
 ### Constraints
 
