@@ -15,7 +15,7 @@ DENYLIST = [
     "jhs", "strymon", "tc electronic", "dunlop", "proco", "klon", "keeley",
     "walrus", "earthquaker", "wampler", "fulltone", "behringer", "digitech",
     "line 6", "neural", "kemper", "fractal", "positive grid", "revv",
-    "tube screamer", "big muff", "rat", "fuzz face", "plexi", "blackface",
+    "tolex", "tube screamer", "big muff", "rat", "fuzz face", "plexi", "blackface",
 ]
 
 vocab = json.loads(VOCAB_PATH.read_text())
