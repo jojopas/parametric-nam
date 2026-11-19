@@ -31,6 +31,16 @@ head. It ships with a six-knob capture of our Origin 20 and a set of cab IRs,
 so you can hear one before you make one. Plain NAM captures play too. The
 download is free with a Murphy Research account.
 
+## Capture without the command line
+
+[**Coro Capture**](https://www.murphyresearch.ai/coro-capture) is a free Mac
+app (macOS 12+, Apple silicon) that does everything in this repo for you: it
+plans the knob settings, records each take through your audio interface, checks
+every take as it lands, trains on your Mac (the trainer is built in: no Python
+to install), and exports a `ParametricWaveNet` `.nam` that opens in Coro NAM
+Player. It makes single-setting captures too. The tools below are the same
+method, by hand.
+
 ## How it works
 
 PANAMA trains a WaveNet that takes a vector of knob values alongside the audio.
@@ -111,6 +121,12 @@ takes over two days:
   default here.
 - **Low-gain corners need extra coverage.** Settings where the amp is nearly
   silent, or where one channel carries all the sound, had the highest error.
+
+## Apps
+
+- [Coro Capture](https://www.murphyresearch.ai/coro-capture) by Murphy
+  Research (free, macOS) records and trains parametric captures with these
+  tools built in.
 
 ## Hosts
 
