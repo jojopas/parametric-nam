@@ -108,8 +108,11 @@ vocabulary's `limits` hold the numeric bounds: `limits.maxBytes` (16384), `limit
 | `style` | yes | `knobStyles` |
 | `cap` | yes | colour |
 | `pointer` | yes | colour |
-| `knob` | no | string: the name of a live knob (binding rules). Absent, the control is printed fixed |
-| `value` | no, fixed controls only | number in `limits.value` ([0, 1]): where a fixed knob points (0 fully left, 1 fully right). Default 0.5. Rejected on a control with `knob` |
+| `knob` | no | string: the name of one of the capture's knobs (binding rules). Not with `host` |
+| `host` | no | `"gain"` or `"volume"`: the host's own input gain or output volume, drawn as a knob of the face (binding rules). Not with `knob` |
+| `value` | no, fixed controls only | number in `limits.value` ([0, 1]): where a fixed knob points (0 fully left, 1 fully right). Default 0.5. Rejected on a control with `knob` or `host` |
+
+A control with neither `knob` nor `host` is printed fixed.
 
 **`text[]`**
 
@@ -140,23 +143,28 @@ vocabulary's `limits` hold the numeric bounds: `limits.maxBytes` (16384), `limit
 1. A knob is *stepped* when its `labels` is an array of at least two strings; every other knob
    is *plain*. `labels: []` and `labels: ["A"]` are plain. A knob list with a duplicate name,
    or with `labels` that is not an array of strings, rejects the face.
-2. **Live knobs.** With a non-empty list, the live knobs are the capture's knobs. With an empty
-   list (a *static* capture), they are the host's own `GAIN` (input gain) and `VOLUME`
-   (output volume), both plain.
-3. **Every live knob exactly once.** Each live knob is named by exactly one control's `knob`,
-   and no control names anything else. Each slot holds at most one control.
+2. **Live knobs.** The capture's knobs are live. So are the host's own controls the face
+   carries with `host`: `"gain"` (input gain) and `"volume"` (output volume), both plain, each at
+   most once. A capture holds its volume fixed while it is made, so the volume is not one of its
+   knobs; `host: "volume"` puts the player's output volume on the face where the gear had its
+   volume knob. A static capture (empty list) must carry both `host` controls.
+3. **Every captured knob exactly once.** Each of the capture's knobs is named by exactly one
+   control's `knob`, and no control names anything else. Each slot holds at most one control.
 4. **Slot types.** A plain knob goes in a `slots.knob` slot, a stepped knob in a
-   `slots.switch` slot. A control with no `knob` (fixed) goes in a `slots.knob` slot. A knob
+   `slots.switch` slot. A `host` control and a fixed control go in a `slots.knob` slot. A knob
    slot with no control is left empty.
-5. **Layout fit.** With a non-empty list, the number of plain knobs must be within the
+5. **Layout fit.** With a non-empty list, the number of plain knobs plus `host` controls must be within the
    layout's `knobs` range (`[lo, hi]`; in v1 `lo == hi`, the layout's knob-slot count, so
    there are no spare knob slots) and the number of stepped knobs at most its switch-slot count.
-6. **Static pedals** use `pedal-0k`. `GAIN` takes its reserved `gain` slot and `VOLUME` its
-   reserved `volume` slot. The captured gear's own knobs are printed fixed in `p1` to `p4`,
+6. **Static pedals** use `pedal-0k`. `host: "gain"` takes its reserved `gain` slot and
+   `host: "volume"` its reserved `volume` slot. The captured gear's own knobs are printed fixed in `p1` to `p4`,
    with their captured positions as `value` and their names in `label-p1` to `label-p4`.
-7. **Static amps** use any amp layout. `GAIN` and `VOLUME` go in any two knob slots; the
+7. **Static amps** use any amp layout. The two `host` controls go in any two knob slots; the
    gear's other knobs are printed fixed, with `value`, in the spare knob slots.
 8. A host drives switch slots with the stepped values `i / (n - 1)` (`n` = number of labels).
+9. A host maps a `host` control onto its own control over that control's full range: knob 0 is
+   the control's minimum, 1 its maximum. A face without `host: "volume"` leaves the host to show
+   its output volume elsewhere.
 
 **Reading it.** A host reads `panel.face` strictly: an unknown key, unknown id, out-of-range
 value, wrong type, broken binding rule, oversize face or unknown `v` rejects the whole face,
