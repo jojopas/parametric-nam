@@ -1,8 +1,11 @@
 # ParametricWaveNet `.nam` format
 
-Version 1. A parametric capture is one neural model of an amplifier that plays
+Version 1.1. A parametric capture is one neural model of an amplifier that plays
 every setting of the knobs it was captured with. This document defines how such
 a model is stored so that any NAM-based host can load it.
+
+Version 1.1 (2026-11-22) adds the optional `knob_scale` field and plain-file export.
+Version 1 files are valid version 1.1 files.
 
 ## Design in one paragraph
 
@@ -26,6 +29,7 @@ UTF-8 JSON with the same top-level keys as a NAM WaveNet `.nam` file:
 | `weights` | array of numbers | NAM WaveNet weight order for the sizes in `config` |
 | `sample_rate` | number | sample rate the model was trained at |
 | `metadata` | object | as in NAM (`name`, `loudness`, `input_level_dbu`, ...) |
+| `knob_scale` | array, optional | the knobs also scale each layer (below) |
 
 ### `config.knobs`
 
@@ -193,6 +197,28 @@ With `N = len(config.knobs)`:
 
 A loader should reject a file that breaks any of these, and should report why.
 
+### `knob_scale` (optional)
+
+Lets the knobs scale each layer as well as shift it. `knob_scale[a][l]` is a flat array of
+`channels * N` numbers for layer `l` of layer array `a`: row-major, so channel `i`, knob `k`
+is at `i * N + k`. With `s_i = 1 + sum_k knob_scale[a][l][i * N + k] * g_k`, layer `l`'s
+pre-activation for channel `i` is
+
+    z_i = (conv(x)_i + conv.bias_i + sum_k input_mixin[i][1 + k] * g_k) * s_i
+          + input_mixin[i][0] * audio
+
+that is, the conv output and the knob shift are scaled; the audio term of `input_mixin` is
+not. A file without `knob_scale` is the same as one whose entries are all zero.
+
+`knob_scale` needs one entry per layer array and one row per layer, each exactly
+`channels * N` long, and is only defined for layers that are not gated. A host that does not
+know `knob_scale` must refuse a file that has it, or it would play the file wrongly.
+
+Because the knobs are constant over a block, `s_i` can be folded into that layer's conv
+weights, conv bias and the knob columns of `input_mixin` whenever a knob moves, and the
+model then runs as an ordinary WaveNet: no extra cost per sample.
+[`cpp/ParametricWaveNet.cpp`](cpp/ParametricWaveNet.cpp) does exactly that.
+
 ## Semantics
 
 - Conditioning row 0 is the audio input, exactly as in a plain WaveNet.
@@ -216,6 +242,15 @@ and override two hooks:
 [`cpp/ParametricWaveNet.h`](cpp/ParametricWaveNet.h) is a complete reference
 loader, about 160 lines, with no dependencies beyond NAM core.
 
+## Plain files for players without knob support
+
+At one knob setting a parametric file is an ordinary WaveNet: fold the knob columns of each
+`input_mixin` into the conv bias (and `knob_scale`, as above), drop the knob rows, and set
+`condition_size` and the first `input_size` back to 1.
+[`parametric_nam/snapshot.py`](parametric_nam/snapshot.py) writes one plain `.nam` per
+setting you pick. Each sounds exactly like the parametric file at that setting and loads in
+any NAM player, including hardware that plays standard NAM, but has no knobs.
+
 ## Relation to PANAMA
 
 [PANAMA](https://github.com/ETH-DISCO/PANAMA) (arXiv:2509.26564) trains
@@ -229,3 +264,10 @@ and `global_mixer.bias` added to `conv.bias`, the two are identical. The first
 block's rechannel layer gets zero columns for the knob rows. That fold is what
 [`parametric_nam/convert_panama.py`](parametric_nam/convert_panama.py) does, so
 a PANAMA checkpoint becomes a file in this format with no loss.
+
+A trainer that also scales each layer by the knobs, as a zero-initialised per-layer
+`Linear(g -> channels)` with no bias (PANAMA state key `_global_scale.weight`) computing
+
+    z = (conv(x) + global_mixer(g)) * (1 + global_scale(g)) + input_mixer(audio)
+
+converts the same way, with `global_scale.weight` written to `knob_scale`.
