@@ -264,10 +264,3 @@ and `global_mixer.bias` added to `conv.bias`, the two are identical. The first
 block's rechannel layer gets zero columns for the knob rows. That fold is what
 [`parametric_nam/convert_panama.py`](parametric_nam/convert_panama.py) does, so
 a PANAMA checkpoint becomes a file in this format with no loss.
-
-A trainer that also scales each layer by the knobs, as a zero-initialised per-layer
-`Linear(g -> channels)` with no bias (PANAMA state key `_global_scale.weight`) computing
-
-    z = (conv(x) + global_mixer(g)) * (1 + global_scale(g)) + input_mixer(audio)
-
-converts the same way, with `global_scale.weight` written to `knob_scale`.

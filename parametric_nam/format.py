@@ -9,10 +9,6 @@ so with condition = [audio, g...] and input_mixin = [input_mixer | global_mixer.
 and global_mixer.bias folded into conv.bias, the two are identical and NAM core
 runs the model unchanged. The host feeds the knob rows (cpp/ParametricWaveNet.cpp).
 
-Optionally the knobs also scale each layer (a zero-initialised Linear(g) -> mid per layer,
-PANAMA state key `_global_scale.weight`): per channel the conv output plus the knob shift is
-multiplied by (1 + scale(g)). That is written as the top-level "knob_scale" (SPEC.md).
-
 Everything here is numpy + json: no torch, so hosts and tests can use it
 without a PyTorch install.
 """
@@ -121,9 +117,6 @@ def state_to_parametric_nam(state: dict[str, np.ndarray], layers: list[dict], he
     n = len(knobs)
     out_layers = []
     flat: list[np.ndarray] = []
-    has_scale = [k.endswith("._global_scale.weight") for k in state]
-    scaled = any(has_scale)
-    knob_scale: list[list[list[float]]] = []
     for b, lc in enumerate(layers):
         lc = copy.deepcopy(lc)
         ch = lc["channels"]
@@ -138,7 +131,6 @@ def state_to_parametric_nam(state: dict[str, np.ndarray], layers: list[dict], he
             rech = np.concatenate([rech, np.zeros((ch, n, 1))], axis=1)  # knob rows feed nothing here
         lc["condition_size"] = 1 + n
         flat.append(rech.ravel())
-        knob_scale.append([])
         for l, _d in enumerate(lc["dilations"]):
             p = f"_blocks.{b}._layers.{l}."
             conv_w, conv_b = state[p + "_conv.weight"], state[p + "_conv.bias"]
@@ -152,13 +144,6 @@ def state_to_parametric_nam(state: dict[str, np.ndarray], layers: list[dict], he
             if gw.shape != (mid, n):
                 raise ValueError(f"{p}_global_mixer.weight is {gw.shape}, expected {(mid, n)}: knob count mismatch")
             mixin = np.concatenate([mixer.reshape(mid, 1), gw.reshape(mid, n)], axis=1)  # (mid, 1+n)
-            if scaled:
-                gs = state.get(p + "_global_scale.weight")
-                if gs is None:
-                    raise ValueError(f"{p}_global_scale.weight is missing: some layers have knob scaling, this one not")
-                if gs.shape != (mid, n):
-                    raise ValueError(f"{p}_global_scale.weight is {gs.shape}, expected {(mid, n)}")
-                knob_scale[-1].append([float(x) for x in gs.ravel()])  # row-major: channel i, knob k at i*n + k
             flat += [conv_w.ravel(), (conv_b + gb).ravel(), mixin.ravel(),
                      state[p + "_1x1.weight"].ravel(), state[p + "_1x1.bias"].ravel()]
         flat.append(state[f"_blocks.{b}._head_rechannel.weight"].ravel())
@@ -170,7 +155,7 @@ def state_to_parametric_nam(state: dict[str, np.ndarray], layers: list[dict], he
     md = {"name": "Parametric capture"}
     if metadata:
         md.update(metadata)
-    out = {
+    return {
         "version": NAM_FILE_VERSION,
         "metadata": md,
         "architecture": ARCHITECTURE,
@@ -183,9 +168,6 @@ def state_to_parametric_nam(state: dict[str, np.ndarray], layers: list[dict], he
         "weights": [float(x) for x in weights],
         "sample_rate": float(sample_rate),
     }
-    if scaled:
-        out["knob_scale"] = knob_scale
-    return out
 
 
 def expected_weight_count(layers: list[dict], n_knobs: int) -> int:
