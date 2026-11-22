@@ -8,9 +8,11 @@ This repo has three things:
 
 1. **[A file format](SPEC.md)**, `ParametricWaveNet`. A standard NAM WaveNet
    `.nam` whose conditioning input carries the knob values next to the audio.
-   NAM core runs it unmodified. A host only has to feed the knob rows.
-2. **A reference loader** in [`cpp/`](cpp/), about 160 lines on top of
-   [NeuralAmpModelerCore](https://github.com/sdatkinson/NeuralAmpModelerCore).
+   NAM core runs it unmodified. A host only has to feed the knob rows. An
+   optional `knob_scale` lets the knobs scale each layer too (version 1.1).
+2. **A reference loader** in [`cpp/`](cpp/), about 300 lines on top of
+   [NeuralAmpModelerCore](https://github.com/sdatkinson/NeuralAmpModelerCore),
+   `knob_scale` included.
 3. **Capture and training tools** in [`parametric_nam/`](parametric_nam/):
    plan the knob settings, record the amp at each one, train with
    [PANAMA](https://github.com/ETH-DISCO/PANAMA), and convert the result to
@@ -83,6 +85,20 @@ python -m parametric_nam.capture_record run --dir sessions/myamp \
 scripts/train.sh sessions/myamp 30
 # -> sessions/myamp/myamp.nam
 ```
+
+### Plain files for other players
+
+Most NAM players, hardware units included, play one setting per file. To take
+settings of a parametric capture to one of them, write plain `.nam` files:
+
+```sh
+python -m parametric_nam.snapshot sessions/myamp/myamp.nam out/ \
+    --at 0.3 0.5 0.5 0.5 --at 0.8 0.5 0.5 0.5
+# -> out/<name> - Gain 3 Bass 5 Middle 5 Treble 5.nam, ...
+```
+
+Each file sounds exactly like the parametric capture at that setting (it nulls
+against it) and loads in any NAM player, but it has no knobs.
 
 The look and author go into the .nam, so a shared capture opens in the right
 amp look in the Coro NAM Player. Change them at convert time with

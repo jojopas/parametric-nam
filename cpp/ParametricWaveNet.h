@@ -10,6 +10,11 @@
 // and the first layer's input_size are 1 + knobs. Rows 1..N of the condition
 // are the knobs. Other NAM hosts refuse the architecture instead of mis-wiring
 // it. parametric_nam/convert_panama.py writes this format; SPEC.md describes it.
+//
+// An optional top-level "knob_scale" (SPEC.md) also scales each layer by the knobs: per channel,
+// the conv output, its bias and the knob shift are multiplied by (1 + S . knobs). With the knobs
+// constant over a block that is the same as scaling those weights, so when a knob moves the
+// next block rewrites them once (allocation-free) and NAM core runs the result unchanged.
 #include <array>
 #include <atomic>
 #include <memory>
@@ -50,9 +55,24 @@ protected:
     void _set_condition_array(NAM_SAMPLE** input, const int num_frames) override;
 
 private:
+    void readKnobScale(const nlohmann::json& model, const nlohmann::json& config);
+    void foldScale();
+
     ParametricWaveNet(nam::wavenet::WaveNetConfig& cfg, std::vector<float> weights,
                       std::vector<Knob> knobs, double sampleRate);
     std::vector<Knob> knobs_;
     std::array<std::atomic<float>, kMaxKnobs> values_ {};
+
+    // knob_scale: per layer, where its conv weights / bias / input_mixin sit in the weights,
+    // and its scale rows (channels x knobs, row-major) in scale_
+    struct ScaledLayer
+    {
+        size_t conv, bias, mixin, scale;
+        int channels, kernel;
+    };
+    std::vector<ScaledLayer> scaled_;
+    std::vector<float> scale_, base_, work_;
+    std::array<float, kMaxKnobs> folded_ {};
+    bool foldedOnce_ = false;
 };
 } // namespace nam_parametric
